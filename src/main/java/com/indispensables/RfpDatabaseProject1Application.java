@@ -8,6 +8,7 @@ public class RfpDatabaseProject1Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(RfpDatabaseProject1Application.class, args);
+		
+		System.out.println("Namaste Bharat!!");
 	}
-
 }
