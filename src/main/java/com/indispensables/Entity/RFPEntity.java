@@ -7,13 +7,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="rfp_entity")
@@ -21,7 +24,6 @@ public class RFPEntity {
 	
 	    @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	   
 	    private int id;
 	 
 	    @Column(name = "_estimated_price")
@@ -53,8 +55,12 @@ public class RFPEntity {
 	    DocumentHeaderEntity documentHeaderEntity;
 	    
 	    
-	    @OneToOne(cascade = CascadeType.ALL)
-	    @JoinColumn(name = "_vendor_header_key")
+	    @OneToOne(cascade = CascadeType.MERGE)
+	    @JoinColumn(name = "vendor_header_key")
 	    VendorHeaderEntity vendorHeaderEntity;
+	    
+	    @ManyToOne
+	    @JoinColumn(name = "buyer_id") // This is the foreign key column in the RfpDetail table
+	    private BuyerEntity buyer;
 	    
 }
