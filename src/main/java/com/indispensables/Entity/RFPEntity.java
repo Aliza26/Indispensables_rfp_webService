@@ -54,7 +54,6 @@ public class RFPEntity {
 	    @JoinColumn(name = "_document_header_key")
 	    DocumentHeaderEntity documentHeaderEntity;
 	    
-	    
 	    @OneToOne(cascade = CascadeType.MERGE)
 	    @JoinColumn(name = "vendor_header_key")
 	    VendorHeaderEntity vendorHeaderEntity;

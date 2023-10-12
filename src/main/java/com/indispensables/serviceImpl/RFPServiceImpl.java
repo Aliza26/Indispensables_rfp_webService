@@ -42,9 +42,8 @@ public class RFPServiceImpl implements RFPService{
 		rfpEntity.setDraft(vo.isDraft());
 		rfpEntity.setRemarks(vo.getRemarks());
 		rfpEntity.setBuyer(buyerRepo.getById(1));
+		
 		VendorHeaderEntity vhe = new VendorHeaderEntity(1,"Ven");
-		
-		
 		List<VendorEntity> vendorList = new ArrayList<>();
 		for(Vendor v :vo.getLi()) {
 			VendorEntity vendorEntity = new VendorEntity();

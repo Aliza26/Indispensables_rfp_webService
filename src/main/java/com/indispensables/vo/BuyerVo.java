@@ -5,5 +5,5 @@ public class BuyerVo {
 	int id;
 	String name;
 	
-
+	
 }

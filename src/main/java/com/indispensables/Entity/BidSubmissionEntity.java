@@ -11,22 +11,40 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.indispensables.vo.RFPVo;
+import com.indispensables.vo.BidSubmission.BidVo;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="bid_sub_entity")
 public class BidSubmissionEntity {
 	
 	@Id
 	@Column(name="bid_id")
 	private int bidId;
 	
+	@Column(name="vendor_name")
+	private String vendorName;
+	
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="rfp_id")
+	@JoinColumn(name="rfp_key")
 	private RFPEntity rfpEnity;
-
+	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="doc_header_entity")
+	@JoinColumn(name="doc_header_key")
 	private DocumentHeaderEntity docHeaderEntity;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="vendor_header_key")
+	private VendorHeaderEntity vendorHeaderEntity;
 	
 	@Column(name="remarks")
 	private String remarks;
@@ -49,6 +67,7 @@ public class BidSubmissionEntity {
 	@Column(name="bid_price")
 	private double bidPrice;
 	
-	
+	@Column(name="bid_status")
+	private boolean bidStatus;
 	
 }

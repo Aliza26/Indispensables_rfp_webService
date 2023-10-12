@@ -31,6 +31,5 @@ public class DocumentHeaderEntity {
 	String document_name;
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "doc_id")
-    List<DocumentEntity> document
-      = new ArrayList<>();
+    List<DocumentEntity> document;
 }

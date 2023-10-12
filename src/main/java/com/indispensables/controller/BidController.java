@@ -11,31 +11,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.indispensables.service.RFPService;
+import com.indispensables.service.BidService;
 import com.indispensables.vo.RFPVo;
+import com.indispensables.vo.BidSubmission.BidVo;
 
-//@CrossOrigin("*")
-//@RestController
-public class RFPcontroller {
+@CrossOrigin("*")
+@RestController
+public class BidController {
 	
 	@Autowired
-	RFPService rfpService;
+	BidService bidService;
 	
-	@PostMapping("/fillrfp")
-	ResponseEntity<String> saveRfp(@RequestBody  RFPVo rfpVo)
+	@PostMapping("fillbid")
+	ResponseEntity<String> saveBid(@RequestBody  BidVo bidVo)
 	{
 		
-		rfpService.save(rfpVo);	
+		bidService.saveBid(bidVo);	
 		
-		return ResponseEntity.ok("Data Saved Successfully");
-	
+		return ResponseEntity.ok("Bid Data Saved Successfully");
 	}
 	
-	@GetMapping("/rfplist/{id}")
-	ResponseEntity<List<RFPVo>> findAll(@PathVariable int id)
+	@GetMapping("fillbid")
+	String sayHi() {
+		return "Hi Vendor's Leader use id to get Your Bid List";
+	}
+	
+	@GetMapping("/fillbid/{id}")
+	ResponseEntity<List<BidVo>> findAll(@PathVariable int id)
 	{
-	 
-		return ResponseEntity.ok(rfpService.getAllRFP(id));
+		return ResponseEntity.ok(bidService.getAllBid(id));
 	}
-
 }

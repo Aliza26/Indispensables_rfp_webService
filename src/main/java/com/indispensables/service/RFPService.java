@@ -11,4 +11,7 @@ public interface RFPService {
 	List<RFPVo> getAllRFP(int buyerHeadId);
 	
 	
+	
+	
+	
 }
