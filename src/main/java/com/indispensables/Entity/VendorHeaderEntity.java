@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Table(name="vendor_header")
 public class VendorHeaderEntity {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	int id;
 	
 	@Column(name="vendor_h_name")
@@ -33,7 +33,7 @@ public class VendorHeaderEntity {
 		this.VendorHName = name;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "vendorHeaderId")
+	@OneToMany(cascade = CascadeType.MERGE,mappedBy = "vendorHeaderId")
 	List<VendorEntity> vendorsList;
 	
 

@@ -2,6 +2,8 @@ package com.indispensables.vo;
 
 import java.util.List;
 
+//import com.indispensables.Entity.VendorListHardCoded;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 
 public class RFPVo {
 
-	private int id;
+	private String id;
 
 	private double estimatedPrice;
 
@@ -30,6 +32,16 @@ public class RFPVo {
 
 	private String bidSubmissionDate;
 	
+	private String buyerName;
+	
+	private int buyer;
+	
 	private List<Vendor> li;
+	
+	private List<Integer> doc;
+	
+	private List<String> docNameList;
+	
+	private List<String> vendoList;
 
 }

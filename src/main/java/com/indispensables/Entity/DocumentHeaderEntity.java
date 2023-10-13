@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -25,11 +27,13 @@ import lombok.NoArgsConstructor;
 public class DocumentHeaderEntity {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	int id;
 	
 	@Column(name="name")
 	String document_name;
 	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "doc_id")
+	@OneToMany(cascade = CascadeType.MERGE,mappedBy = "doc_id")
     List<DocumentEntity> document;
+	
 }

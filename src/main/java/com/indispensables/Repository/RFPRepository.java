@@ -1,6 +1,7 @@
 package com.indispensables.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +15,9 @@ public interface RFPRepository extends JpaRepository<RFPEntity, Integer>{
 	
 	@Query(value="select * from rfp_entity  where buyer_id = :buyer",nativeQuery=true)
     List<RFPEntity> findByBuyerId(@Param("buyer")int buyer);
+
+	@Query(value="select * from rfp_entity  where client_id = :rfp_id",nativeQuery=true)
+	RFPEntity findById(@Param("client_id") int rfp_id);
  
 
 }
