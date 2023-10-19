@@ -23,64 +23,66 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="rfp_entity")
+@Table(name = "rfp_entity")
 public class RFPEntity {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "client_id")
+	private int client_id;
+
+	@GenericGenerator(name = "rfp_id", strategy = "com.indispensables.Entity.ClientIdGenerator")
+	@GeneratedValue(generator = "rfp_id", strategy = GenerationType.AUTO)
+	@Column(name = "rfp_id")
+	private String rfpId;
+
+	@Column(name = "_estimated_price")
+	private double estimatedPrice;
+
+	@Column(name = "_is_Splitable")
+	private boolean isSplitable;
+
+	@Column(name = "_is_publish")
+	private boolean isPublish;
+
+	@Column(name = "_is_draft")
+	private boolean isDraft;
+
+	@Column(name = "remarks")
+	private String remarks;
+
+	@Column(name = "_rfp_creation_date")
+	private LocalDateTime rfpCreationDate;
+
+	@Column(name = "_bid_opening_date")
+	private String bidOpeningDate;
+
+	@Column(name = "_bid_submission_date")
+	private String bidSubmissionDate;
+
+	@Column(name = "rfp_name")
+	private String name;
+
+	@Column(name = "buyer_name")
+	private String buyerName;
 	
-	 @GeneratedValue(strategy = GenerationType.AUTO)
-	 @Column(name="client_id")
-	 private String client_id;
-	
-	    @Id
-	    @GenericGenerator(name = "rfp_id", strategy =
-	    "com.indispensables.Entity.ClientIdGenerator")
-	    @GeneratedValue(generator = "rfp_id")  
-	    @Column(name="rfp_id")
-	    private String rfpId;
-	    
-	    @Column(name = "_estimated_price")
-	    private double estimatedPrice;
-	 
-	    @Column(name = "_is_Splitable") 
-	    private boolean isSplitable;
-	    
-	    @Column(name = "_is_publish") 
-	    private boolean isPublish;
-	     
-	    @Column(name = "_is_draft") 
-	    private boolean isDraft;
-	    
-	    @Column(name = "remarks") 
-	    private String remarks;
-	    
-	    @Column(name = "_rfp_creation_date") 
-	    private LocalDateTime rfpCreationDate;
-	    
-	    @Column(name = "_bid_opening_date") 
-	    private String bidOpeningDate;
-	    
-	    @Column(name = "_bid_submission_date") 
-	    private String bidSubmissionDate;
-	    
-	    @Column(name="rfp_name")
-	    private String name;
-	    
-	    @Column(name="buyer_name")
-	    private String buyerName;
-	 
-	    @OneToOne(cascade = CascadeType.MERGE)
-	    @JoinColumn(name = "_document_header_key")
-	    DocumentHeaderEntity documentHeaderEntity;
-	    
-	    @OneToOne(cascade = CascadeType.MERGE)
-	    @JoinColumn(name = "_bid_header_key")
-	    BidHeaderEntity bidHeaderEntity;
-	    
-	    @OneToOne(cascade = CascadeType.MERGE)
-	    @JoinColumn(name = "vendor_header_key")
-	    VendorHeaderEntity vendorHeaderEntity;
-	    
-	    @ManyToOne
-	    @JoinColumn(name = "buyer_id") // This is the foreign key column in the RfpDetail table
-	    private BuyerEntity buyer;
-	    
+	@Column(name = "status")
+	private String status;
+
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "_document_header_key")
+	DocumentHeaderEntity documentHeaderEntity;
+
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "_bid_header_key")
+	BidHeaderEntity bidHeaderEntity;
+
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "vendor_header_key")
+	VendorHeaderEntity vendorHeaderEntity;
+
+	@ManyToOne
+	@JoinColumn(name = "buyer_id") // This is the foreign key column in the RfpDetail table
+	private BuyerEntity buyer;
+
 }

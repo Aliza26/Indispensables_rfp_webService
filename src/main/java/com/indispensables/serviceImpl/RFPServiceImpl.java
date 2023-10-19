@@ -1,14 +1,11 @@
 package com.indispensables.serviceImpl;
-
 import java.io.Console;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.indispensables.Entity.BuyerEntity;
 import com.indispensables.Entity.DocumentEntity;
 import com.indispensables.Entity.DocumentHardCoded;
@@ -20,7 +17,6 @@ import com.indispensables.Entity.VendorhardCoded;
 //import com.indispensables.Entity.VendorListHardCoded;
 import com.indispensables.Repository.BuyerRepository;
 import com.indispensables.Repository.DocumentHCodedRepo;
-
 //import com.indispensables.Repository.DocumentHRepository;
 import com.indispensables.Repository.DocumentHeaderRepo;
 import com.indispensables.Repository.DocumentRepo;
@@ -37,7 +33,6 @@ import com.indispensables.vo.RFPVo;
 import com.indispensables.vo.Vendor;
 @Service
 public class RFPServiceImpl implements RFPService{
-
 	@Autowired
 	RFPRepository rfpRepo;
 	@Autowired
@@ -68,6 +63,9 @@ public class RFPServiceImpl implements RFPService{
 		rfpEntity.setDraft(vo.isDraft());
 		rfpEntity.setRemarks(vo.getRemarks());
 		rfpEntity.setBuyer(buyerRepo.getById(vo.getBuyer()));
+		rfpEntity.setName(vo.getName());
+		rfpEntity.setRfpId("MJ"+count);
+		rfpEntity.setBuyerName(vo.getBuyerName());
 		VendorHeaderEntity vhe = new VendorHeaderEntity();
 		vendorHRepo.save(vhe);
 		DocumentHeaderEntity dhe = new DocumentHeaderEntity();
@@ -85,7 +83,6 @@ public class RFPServiceImpl implements RFPService{
 			documentList.add(docuEntity);
 		}
 		dhe.setDocument(documentList);
-
 		rfpEntity.setDocumentHeaderEntity(dhe);
 		List<VendorEntity> vendorList = new ArrayList<>();
 		for(Vendor v :vo.getLi()) {
@@ -103,7 +100,7 @@ public class RFPServiceImpl implements RFPService{
 	@Override
 	public List<RFPVo> getAllRFP(int buyerHeadId) {
 		// TODO Auto-generated method stub
-		List<RFPEntity> rfpEntity = rfpRepo.findByBuyerId(buyerHeadId); 
+		List<RFPEntity> rfpEntity = rfpRepo.findByBuyerId(buyerHeadId);
 		List<RFPVo> rfpList = new ArrayList<>();
 		
 		for(RFPEntity rfp : rfpEntity) {
@@ -112,11 +109,12 @@ public class RFPServiceImpl implements RFPService{
 			rfpvo.setBidSubmissionDate(rfp.getBidSubmissionDate());
 			rfpvo.setRfpCreationDate(rfp.getRfpCreationDate().toString());
 			rfpvo.setDraft(rfp.isDraft());
-			rfpvo.setId(rfp.getRfpId());
+			rfpvo.setId(rfp.getClient_id());
 			rfpvo.setEstimatedPrice(rfp.getEstimatedPrice());
 			rfpvo.setRemarks(rfp.getRemarks());
 			rfpvo.setSplitable(rfp.isSplitable());
 			rfpvo.setPublish(rfp.isPublish());
+			rfpvo.setName(rfp.getName());
 			List<String> listDocList = new ArrayList();
 			for(DocumentEntity documentEntity : rfp.getDocumentHeaderEntity().getDocument()) {
 				listDocList.add(documentEntity.getDocName());
@@ -191,7 +189,7 @@ public class RFPServiceImpl implements RFPService{
 			docList.add(d.getDocName());
 		}
 		rfpVo.setDocNameList(docList);
-		rfpVo.setId(rfpEntity.getRfpId());
+		rfpVo.setId(rfpEntity.getClient_id());
 		rfpVo.setEstimatedPrice(rfpEntity.getEstimatedPrice());
 		rfpVo.setPublish(rfpEntity.isPublish());
 		rfpVo.setRemarks(rfpEntity.getRemarks());
@@ -212,7 +210,8 @@ public class RFPServiceImpl implements RFPService{
 			rfpvo.setBidSubmissionDate(rfp.getBidSubmissionDate());
 			rfpvo.setRfpCreationDate(rfp.getRfpCreationDate().toString());
 			rfpvo.setDraft(rfp.isDraft());
-			rfpvo.setId(rfp.getRfpId());
+			rfpvo.setId(rfp.getClient_id());
+			rfpvo.setRfp_id(rfp.getRfpId());
 			rfpvo.setEstimatedPrice(rfp.getEstimatedPrice());
 			rfpvo.setRemarks(rfp.getRemarks());
 			rfpvo.setSplitable(rfp.isSplitable());
@@ -232,10 +231,10 @@ public class RFPServiceImpl implements RFPService{
 		return rfpList;
 	}
 	@Override
-	public RFPVo getRFPById(String id) {
+	public RFPVo findRFPById(int id) {
 		// TODO Auto-generated method stub
 		RFPVo rfpVo = new RFPVo();
-		RFPEntity rfpEntity = rfpRepo.findById(id);
+		RFPEntity rfpEntity = rfpRepo.findById(id).orElse(null);
 		rfpVo.setBidOpeningDate(rfpEntity.getBidOpeningDate());
 		rfpVo.setBidSubmissionDate(rfpEntity.getBidSubmissionDate());
 		rfpVo.setBuyerName(rfpEntity.getBuyerName());

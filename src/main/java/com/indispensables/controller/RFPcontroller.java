@@ -1,6 +1,7 @@
 package com.indispensables.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,10 +48,10 @@ public class RFPcontroller {
 	}
 	
 	@GetMapping("/rfp1/{id}")
-	ResponseEntity<RFPVo> findOnEntity(@PathVariable String id)
+	ResponseEntity<RFPVo> findOnEntity(@PathVariable int id)
 	{
 	 
-		return ResponseEntity.ok(rfpService.findRFPById(id));
+		return ResponseEntity.ok(rfpService.getRFPById(id));
 	}
 	
 	@GetMapping("/rfpvendorlist/{id}")
@@ -62,10 +63,10 @@ public class RFPcontroller {
 	
 
 	@GetMapping("/rfp/{id}")
-	ResponseEntity<RFPVo> findRFP(@PathVariable String id)
+	ResponseEntity<RFPVo> findRFP(@PathVariable int id)
 	{
 	 
-		return ResponseEntity.ok(rfpService.getRFPById(id));
+		return ResponseEntity.ok(rfpService.findRFPById(id));
 	}
 	
 	@GetMapping("/vendorlist")

@@ -15,9 +15,11 @@ public interface RFPRepository extends JpaRepository<RFPEntity, Integer>{
 	
 	@Query(value="select * from rfp_entity  where buyer_id = :buyer",nativeQuery=true)
     List<RFPEntity> findByBuyerId(@Param("buyer")int buyer);
-
-	@Query(value="select * from rfp_entity  where client_id = :rfp_id",nativeQuery=true)
-	RFPEntity findById(@Param("client_id") int rfp_id);
+//
+//	@Query(value="select * from rfp_entity  where client_id =:rfp_id",nativeQuery=true)
+//	List<RFPEntity> findByClientId(@Param("client_id") int rfp_id);
+	
+	public Optional<RFPEntity> findById(Integer id);
  
 
 }

@@ -14,7 +14,9 @@ import lombok.NoArgsConstructor;
 
 public class RFPVo {
 
-	private String id;
+	private int id;
+	
+	private String rfp_id;
 
 	private double estimatedPrice;
 
@@ -23,6 +25,10 @@ public class RFPVo {
 	private boolean isPublish;
 
 	private boolean isDraft;
+	
+	private boolean status;
+	
+	private String name;
 
 	private String remarks;
 
