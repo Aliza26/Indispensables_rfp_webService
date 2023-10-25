@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.indispensables.vo.Document;
 import com.indispensables.vo.RFPVo;
 import com.indispensables.vo.Vendor;
+import com.indispensables.vo.BidSubmission.BidVo;
 
 public interface RFPService {
 
@@ -24,6 +25,8 @@ public interface RFPService {
 	List<RFPVo> getAllRFPList();
 
 	RFPVo getRFPById(int rfpId);
+
+	List<BidVo> getAllBids(int id);
 	
 	
 	

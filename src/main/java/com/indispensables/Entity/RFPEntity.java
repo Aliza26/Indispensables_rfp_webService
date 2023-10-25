@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AllArgsConstructor;
@@ -25,16 +26,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "rfp_entity")
 public class RFPEntity {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "client_id")
 	private int client_id;
 
-	@GenericGenerator(name = "rfp_id", strategy = "com.indispensables.Entity.ClientIdGenerator")
-	@GeneratedValue(generator = "rfp_id", strategy = GenerationType.AUTO)
+	
+
 	@Column(name = "rfp_id")
-	private String rfpId;
+	private String rfp_id;
 
 	@Column(name = "_estimated_price")
 	private double estimatedPrice;
@@ -65,9 +65,6 @@ public class RFPEntity {
 
 	@Column(name = "buyer_name")
 	private String buyerName;
-	
-	@Column(name = "status")
-	private String status;
 
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "_document_header_key")

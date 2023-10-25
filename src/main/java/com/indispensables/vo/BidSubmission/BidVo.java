@@ -30,7 +30,7 @@ public class BidVo{
 	
 	private double bidPrice;
 	private boolean bidStatus;
-	
+	private int rfp_id;
 	private int bid_head_id;
 	
 	List<RFPVo> rfpList;

@@ -1,11 +1,16 @@
 package com.indispensables.serviceImpl;
+
 import java.io.Console;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.indispensables.Entity.BidHeaderEntity;
+import com.indispensables.Entity.BidSubmissionEntity;
 import com.indispensables.Entity.BuyerEntity;
 import com.indispensables.Entity.DocumentEntity;
 import com.indispensables.Entity.DocumentHardCoded;
@@ -14,9 +19,11 @@ import com.indispensables.Entity.RFPEntity;
 import com.indispensables.Entity.VendorEntity;
 import com.indispensables.Entity.VendorHeaderEntity;
 import com.indispensables.Entity.VendorhardCoded;
+import com.indispensables.Repository.BidHeaderRepo;
 //import com.indispensables.Entity.VendorListHardCoded;
 import com.indispensables.Repository.BuyerRepository;
 import com.indispensables.Repository.DocumentHCodedRepo;
+
 //import com.indispensables.Repository.DocumentHRepository;
 import com.indispensables.Repository.DocumentHeaderRepo;
 import com.indispensables.Repository.DocumentRepo;
@@ -31,8 +38,10 @@ import com.indispensables.vo.BuyerVo;
 import com.indispensables.vo.Document;
 import com.indispensables.vo.RFPVo;
 import com.indispensables.vo.Vendor;
+import com.indispensables.vo.BidSubmission.BidVo;
 @Service
 public class RFPServiceImpl implements RFPService{
+
 	@Autowired
 	RFPRepository rfpRepo;
 	@Autowired
@@ -50,6 +59,8 @@ public class RFPServiceImpl implements RFPService{
 	int count = 1;
 	@Autowired
 	VendorHCodedRepo venHCodedRepo;
+	@Autowired
+	BidHeaderRepo bidHRepo;
 	@Override
 	public void save(RFPVo vo) {
 		// TODO Auto-generated method stub
@@ -63,15 +74,22 @@ public class RFPServiceImpl implements RFPService{
 		rfpEntity.setDraft(vo.isDraft());
 		rfpEntity.setRemarks(vo.getRemarks());
 		rfpEntity.setBuyer(buyerRepo.getById(vo.getBuyer()));
+		rfpEntity.setSplitable(vo.isSplitable());
 		rfpEntity.setName(vo.getName());
-		rfpEntity.setRfpId("MJ"+count);
-		rfpEntity.setBuyerName(vo.getBuyerName());
+		//rfpEntity.setRfpId();
 		VendorHeaderEntity vhe = new VendorHeaderEntity();
 		vendorHRepo.save(vhe);
 		DocumentHeaderEntity dhe = new DocumentHeaderEntity();
 		dhe.setDocument_name(vo.getRemarks());
 		count++;
+		
 		docHRepo.save(dhe);
+		
+	    rfpEntity.setRfp_id("MJ"+dhe.getId());
+
+		BidHeaderEntity bhe = new BidHeaderEntity();
+		bidHRepo.save(bhe);
+		rfpEntity.setBidHeaderEntity(bhe);
 		List<DocumentEntity> documentList = new ArrayList<>();
 		for(int v :vo.getDoc()){
 			DocumentHardCoded docEntity = documentHardCoded.getById(v);
@@ -83,16 +101,17 @@ public class RFPServiceImpl implements RFPService{
 			documentList.add(docuEntity);
 		}
 		dhe.setDocument(documentList);
+
 		rfpEntity.setDocumentHeaderEntity(dhe);
-		List<VendorEntity> vendorList = new ArrayList<>();
-		for(Vendor v :vo.getLi()) {
-			VendorEntity vendorEntity = new VendorEntity();
-			vendorEntity.setVendorHeaderId(vhe);
-			vendorEntity.setVendorName(v.getName());
-			
-			vendorList.add(vendorEntity);
-		}
-		vhe.setVendorsList(vendorList);
+//		List<VendorEntity> vendorList = new ArrayList<>();
+//		for(Vendor v :vo.getLi()) {
+//			VendorEntity vendorEntity = new VendorEntity();
+//			vendorEntity.setVendorHeaderId(vhe);
+//			vendorEntity.setVendorName(v.getName());
+//			
+//			vendorList.add(vendorEntity);
+//		}
+//		vhe.setVendorsList(vendorList);
 	
 		rfpEntity.setVendorHeaderEntity(vhe);
 		rfpRepo.save(rfpEntity);
@@ -100,7 +119,7 @@ public class RFPServiceImpl implements RFPService{
 	@Override
 	public List<RFPVo> getAllRFP(int buyerHeadId) {
 		// TODO Auto-generated method stub
-		List<RFPEntity> rfpEntity = rfpRepo.findByBuyerId(buyerHeadId);
+		List<RFPEntity> rfpEntity = rfpRepo.findByBuyerId(buyerHeadId); 
 		List<RFPVo> rfpList = new ArrayList<>();
 		
 		for(RFPEntity rfp : rfpEntity) {
@@ -115,6 +134,7 @@ public class RFPServiceImpl implements RFPService{
 			rfpvo.setSplitable(rfp.isSplitable());
 			rfpvo.setPublish(rfp.isPublish());
 			rfpvo.setName(rfp.getName());
+			rfpvo.setRfp_id(rfp.getRfp_id());
 			List<String> listDocList = new ArrayList();
 			for(DocumentEntity documentEntity : rfp.getDocumentHeaderEntity().getDocument()) {
 				listDocList.add(documentEntity.getDocName());
@@ -181,7 +201,7 @@ public class RFPServiceImpl implements RFPService{
 		RFPEntity rfpEntity = rfpRepo.getById(rfpId);
 		RFPVo rfpVo = new RFPVo();
 		rfpVo.setBidOpeningDate(rfpEntity.getBidOpeningDate());
-		rfpVo.setBidSubmissionDate(rfpVo.getBidSubmissionDate());
+		rfpVo.setBidSubmissionDate(rfpEntity.getBidSubmissionDate());
 		rfpVo.setBuyerName(rfpEntity.getBuyerName());
 		rfpVo.setDraft(rfpEntity.isDraft());
 		List<String> docList = new ArrayList<>();
@@ -190,6 +210,7 @@ public class RFPServiceImpl implements RFPService{
 		}
 		rfpVo.setDocNameList(docList);
 		rfpVo.setId(rfpEntity.getClient_id());
+	//	rfpVo.setRfp_id(rfpEntity.getRfp_id());
 		rfpVo.setEstimatedPrice(rfpEntity.getEstimatedPrice());
 		rfpVo.setPublish(rfpEntity.isPublish());
 		rfpVo.setRemarks(rfpEntity.getRemarks());
@@ -211,7 +232,6 @@ public class RFPServiceImpl implements RFPService{
 			rfpvo.setRfpCreationDate(rfp.getRfpCreationDate().toString());
 			rfpvo.setDraft(rfp.isDraft());
 			rfpvo.setId(rfp.getClient_id());
-			rfpvo.setRfp_id(rfp.getRfpId());
 			rfpvo.setEstimatedPrice(rfp.getEstimatedPrice());
 			rfpvo.setRemarks(rfp.getRemarks());
 			rfpvo.setSplitable(rfp.isSplitable());
@@ -230,20 +250,52 @@ public class RFPServiceImpl implements RFPService{
 		}
 		return rfpList;
 	}
+//	@Override
+//	public RFPVo getRFPById(String id) {
+//		// TODO Auto-generated method stub
+//		RFPVo rfpVo = new RFPVo();
+//		RFPEntity rfpEntity = rfpRepo.findById(id);
+//		rfpVo.setBidOpeningDate(rfpEntity.getBidOpeningDate());
+//		rfpVo.setBidSubmissionDate(rfpEntity.getBidSubmissionDate());
+//		rfpVo.setBuyerName(rfpEntity.getBuyerName());
+//		List<String> listDocList = new ArrayList();
+//		for(DocumentEntity documentEntity : rfpEntity.getDocumentHeaderEntity().getDocument()) {
+//			listDocList.add(documentEntity.getDocName());
+//		}
+//		rfpVo.setDocNameList(listDocList);
+//		return rfpVo;
+//	}
+	@Override
+	public List<BidVo> getAllBids(int id) {
+		// TODO Auto-generated method stub
+		List<BidSubmissionEntity> bidSubEntity = rfpRepo.getById(id).getBidHeaderEntity().getBid();
+		List<BidVo> bidVo = new ArrayList<>();
+		for(BidSubmissionEntity be : bidSubEntity) {
+			BidVo bv = new BidVo();
+			bv.setActive(be.isActive());
+			if(be.getBidCreationDateTime() != null) {
+			bv.setBidCreationDateTime(be.getBidCreationDateTime().toString());
+			}
+			bv.setBidId(be.getBidSubId());
+			if(be.getBidOpeningDateTime() != null) {
+			bv.setBidOpeningDateTime(be.getBidOpeningDateTime().toString());
+			}
+			bv.setBidPrice(be.getBidPrice());
+			bv.setBidStatus(be.isBidStatus());
+			if(be.getBidSubmissionDateTime() != null) {
+			bv.setBidSubmissionDateTime(be.getBidSubmissionDateTime().toString());
+			}
+			bv.setDraft(be.isDraft());
+			bv.setRemarks(be.getRemarks());
+			bv.setVendorName(be.getVendorName());
+			bidVo.add(bv);
+		}
+		return bidVo;
+	}
 	@Override
 	public RFPVo findRFPById(int id) {
 		// TODO Auto-generated method stub
-		RFPVo rfpVo = new RFPVo();
-		RFPEntity rfpEntity = rfpRepo.findById(id).orElse(null);
-		rfpVo.setBidOpeningDate(rfpEntity.getBidOpeningDate());
-		rfpVo.setBidSubmissionDate(rfpEntity.getBidSubmissionDate());
-		rfpVo.setBuyerName(rfpEntity.getBuyerName());
-		List<String> listDocList = new ArrayList();
-		for(DocumentEntity documentEntity : rfpEntity.getDocumentHeaderEntity().getDocument()) {
-			listDocList.add(documentEntity.getDocName());
-		}
-		rfpVo.setDocNameList(listDocList);
-		return rfpVo;
+		return null;
 	}
 	
 	

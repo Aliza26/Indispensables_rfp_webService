@@ -45,29 +45,27 @@ public class BidServiceImpl implements BidService {
 	public void saveBid(BidVo bidVo) {
 
 		BidSubmissionEntity bidSubmissionEntity = new BidSubmissionEntity();
-		if (bidHeaderRepo.existsById(bidVo.getBid_head_id())) {
-			bidSubmissionEntity.setBid_id(bidHeaderRepo.getById(bidVo.getBid_head_id()));
-			
-		} else {
-			BidHeaderEntity bidHeaderEntity = new BidHeaderEntity();
-			bidSubmissionEntity.setBid_id(bidHeaderEntity);
-		}
-
+		
+        bidSubmissionEntity.setBid_id(refRepo.getById(bidVo.getRfp_id()).getBidHeaderEntity());
 		bidSubmissionEntity.setBidSubId(bidVo.getBidId());
 		bidSubmissionEntity.setVendorName(bidVo.getVendorName());
 		bidSubmissionEntity.setBidPrice(bidVo.getBidPrice());
 		
 		
+	
 		
-
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+	  
+     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 //
 //        
-//
-//		bidSubmissionEntity.setBidCreationDateTime( LocalDateTime.parse(
+        LocalDateTime now = LocalDateTime.now();
+		bidSubmissionEntity.setBidCreationDateTime(now);
 //				bidVo.getBidCreationDateTime()));
-//		bidSubmissionEntity.setBidSubmissionDateTime(LocalDateTime.parse(bidVo.getBidSubmissionDateTime())); // this should be default 
-//		bidSubmissionEntity.setBidOpeningDateTime(LocalDateTime.parse(bidVo.getBidOpeningDateTime()));
+		System.out.println(bidVo.getBidSubmissionDateTime());
+		bidSubmissionEntity.setBidSubmissionDateTime
+		(LocalDateTime.parse(bidVo.getBidSubmissionDateTime().substring(0, 19),formatter)); // this should be default 
+		bidSubmissionEntity.setBidOpeningDateTime(LocalDateTime.parse
+				(bidVo.getBidOpeningDateTime().substring(0, 19),formatter));
 //		
 		bidSubmissionEntity.setBidStatus(bidVo.isBidStatus());
 		bidSubmissionEntity.setActive(bidVo.isActive());
