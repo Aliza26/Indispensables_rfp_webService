@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -33,8 +34,7 @@ import lombok.NoArgsConstructor;
 public class BidSubmissionEntity {
 
 	@Id
-	@GenericGenerator(name = "bid_sub_id", strategy = "com.indispensables.Entity.ClientIdGenerator")
-	@GeneratedValue(generator = "bid_sub_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "bid_sub_id")
 	private int bidSubId;
 

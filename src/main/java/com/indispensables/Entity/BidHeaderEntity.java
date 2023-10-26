@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 public class BidHeaderEntity {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 	
 	@Column(name="name")

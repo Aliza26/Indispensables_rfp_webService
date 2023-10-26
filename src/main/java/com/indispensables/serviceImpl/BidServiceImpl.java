@@ -47,7 +47,7 @@ public class BidServiceImpl implements BidService {
 		BidSubmissionEntity bidSubmissionEntity = new BidSubmissionEntity();
 		
         bidSubmissionEntity.setBid_id(refRepo.getById(bidVo.getRfp_id()).getBidHeaderEntity());
-		bidSubmissionEntity.setBidSubId(bidVo.getBidId());
+		//bidSubmissionEntity.setBidSubId(bidVo.getBidId());
 		bidSubmissionEntity.setVendorName(bidVo.getVendorName());
 		bidSubmissionEntity.setBidPrice(bidVo.getBidPrice());
 		

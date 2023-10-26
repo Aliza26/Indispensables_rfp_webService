@@ -105,7 +105,7 @@ public class RFPcontroller {
 	@GetMapping("/fillbid/{id}")
 	ResponseEntity<List<BidVo>> findAllBids(@PathVariable int id)
 	{
-		return ResponseEntity.ok(bidService.getAllBid(id));
+		return ResponseEntity.ok(rfpService.getAllBids(id));
 	}
 
 
