@@ -1,6 +1,5 @@
 package com.indispensables.Entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,30 +10,35 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-@Data
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="document_entity")
-public class DocumentEntity {
-
+@Data
+@Table(name="product_entity")
+public class ProductEntity {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	int id;
 	
-	@Column(name= "doc_name")
-	String docName;
+	@Column(name= "product_name")
+	String productName;
 	
 	
-	@Column(name="doc_path")
-	String docPath;
+	@Column(name="unit_price")
+	Double productPrice;
 	
-	 
+	
+	@Column(name="quantity")
+	int productQuantity;
+	
+
     @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name = "document_id")
-    DocumentHeaderEntity doc_id;
+    @JoinColumn(name = "product_id")
+    ProductHeaderEntity product_id;
+	
 }

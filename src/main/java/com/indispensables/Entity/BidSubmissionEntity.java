@@ -76,5 +76,12 @@ public class BidSubmissionEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "bid_id")
 	BidHeaderEntity bid_id;
+	
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "product_header_key")
+	private ProductHeaderEntity productHeaderEntity;
+	
+	
 
 }
