@@ -98,4 +98,24 @@ public class BidServiceImpl implements BidService {
 		return bidVoList;
 	}
 
+	@Override
+	public BidVo getBidDetails(int id) {
+		// TODO Auto-generated method stub
+		BidSubmissionEntity bidSubEntity = bidSubRepo.getById(id);
+		BidVo bidVo = new BidVo();
+		
+		bidVo.setBidId(bidSubEntity.getBidSubId());
+		bidVo.setBidCreationDateTime(bidSubEntity.getBidCreationDateTime().toString());
+		bidVo.setBidOpeningDateTime(bidSubEntity.getBidOpeningDateTime().toString());
+		bidVo.setBidSubmissionDateTime(bidSubEntity.getBidSubmissionDateTime().toString());
+		bidVo.setBidPrice(bidSubEntity.getBidPrice());
+		bidVo.setActive(bidSubEntity.isActive());
+		bidVo.setBidStatus(bidSubEntity.isBidStatus());
+		bidVo.setRemarks(bidSubEntity.getRemarks());
+		bidVo.setVendorName(bidSubEntity.getVendorName());
+		
+		
+		return bidVo;
+	}
+
 }

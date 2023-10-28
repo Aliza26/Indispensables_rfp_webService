@@ -8,4 +8,6 @@ public interface BidService {
 	void saveBid(BidVo bidvo);
 	
 	List<BidVo> getAllBid(int id);
+	
+	BidVo getBidDetails(int id);
 }

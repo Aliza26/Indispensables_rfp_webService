@@ -103,15 +103,17 @@ public class RFPServiceImpl implements RFPService{
 		dhe.setDocument(documentList);
 
 		rfpEntity.setDocumentHeaderEntity(dhe);
-//		List<VendorEntity> vendorList = new ArrayList<>();
-//		for(Vendor v :vo.getLi()) {
-//			VendorEntity vendorEntity = new VendorEntity();
-//			vendorEntity.setVendorHeaderId(vhe);
-//			vendorEntity.setVendorName(v.getName());
-//			
-//			vendorList.add(vendorEntity);
-//		}
-//		vhe.setVendorsList(vendorList);
+		List<VendorEntity> vendorList = new ArrayList<>();
+		for(Vendor v :vo.getLi()) {
+			System.out.println(v);
+			VendorEntity vendorEntity = new VendorEntity();
+			vendorEntity.setVendorHeaderId(vhe);
+			vendorEntity.setVendorName(v.getName());
+			venderRepo.save(vendorEntity);
+			
+			vendorList.add(vendorEntity);
+		}
+		vhe.setVendorsList(vendorList);
 	
 		rfpEntity.setVendorHeaderEntity(vhe);
 		rfpRepo.save(rfpEntity);
@@ -215,9 +217,9 @@ public class RFPServiceImpl implements RFPService{
 		rfpVo.setPublish(rfpEntity.isPublish());
 		rfpVo.setRemarks(rfpEntity.getRemarks());
 		List<String> venList = new ArrayList<>();
-		for(VendorEntity vendorEntity :rfpEntity.getVendorHeaderEntity().getVendorsList()) {
-			venList.add(vendorEntity.getVendorName());
-		}
+//		for(VendorEntity vendorEntity :rfpEntity.getVendorHeaderEntity().getVendorsList()) {
+//			venList.add(vendorEntity.getVendorName());
+//		}
 		return rfpVo;
 	}
 	@Override

@@ -29,6 +29,10 @@ public class DocumentEntity {
 	@Column(name= "doc_name")
 	String docName;
 	
+	
+	@Column(name="doc_path")
+	String docPath;
+	
 	 
     @ManyToOne(fetch= FetchType.LAZY)
     

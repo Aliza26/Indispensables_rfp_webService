@@ -20,9 +20,7 @@ import com.indispensables.vo.RFPVo;
 import com.indispensables.vo.Vendor;
 import com.indispensables.vo.BidSubmission.BidVo;
 
-@CrossOrigin("*")
-@RestController
-public class RFPcontroller {
+public class Bidcontroller {
 	
 	@Autowired
 	RFPService rfpService;
@@ -108,11 +106,5 @@ public class RFPcontroller {
 		return ResponseEntity.ok(rfpService.getAllBids(id));
 	}
 
-	
-	@GetMapping("/bid/{id}")
-	ResponseEntity<BidVo> getBidbyId(@PathVariable int id)
-	{
-		return ResponseEntity.ok(bidService.getBidDetails(id));
-	}
 
 }
