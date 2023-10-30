@@ -58,7 +58,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>bookcrud</finalName>
+		<finalName>RFP</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
