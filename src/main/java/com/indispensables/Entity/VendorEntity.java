@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="vendor")
+@Table(name="vendor_hi")
 public class VendorEntity {
 	
 	@Id
